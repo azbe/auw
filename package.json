@@ -1,0 +1,15 @@
+{
+  "name": "auw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "randomstring": "^1.1.5"
+  }
+}
