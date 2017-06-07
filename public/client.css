@@ -5,17 +5,27 @@
 
 .message
 {
-	display: block;
+	display: inline-block;
 	padding: 10px;
 	margin: 8px;
 	min-width: 8px;
 	line-height: 18px;
+	color: white;
 	border: 1px solid black;
+	white-space: pre-line;
 }
 
-.message:last-child
+.message_time
 {
-	margin-bottom: 70px;
+	display: inline-block;
+	color: rgb(150,150,150);
+	margin-left: 8px;
+	font-size: 8pt;
+}
+
+.message_time:last-child
+{
+	margin-bottom: 100px;
 }
 
 #input
@@ -25,23 +35,20 @@
 	left: 4px;
 	bottom: 4px;
 	right: 4px;
-	height: 64px;
 	box-sizing: border-box;
-	padding: 4px;
 }
 
 #input_text
 {
-	display: inline-block;
-	width: calc(100% - 65px);
-	height: calc(100% - 10px);
+	display: block;
+	height: 64px;
+	width: 100%;
 	resize: none;
+	box-sizing: border-box;
 	padding: 4px;
 }
 
 #input_send
 {
-	display: inline-block;
-	width: 50px;
-	height: 100%;
+	display: none;
 }

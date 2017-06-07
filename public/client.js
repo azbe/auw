@@ -4,13 +4,22 @@ $(() =>
 {
 	$('#input_send').click(() =>
 	{
-		socket.emit('chat message', $('#input_text').val());
+		socket.emit('chat message', $('#input_text').val(), (new Date()).toUTCString());
 		$('#input_text').val('');
 		return false;
 	});
 
-	socket.on('chat message', (msg) =>
+	$('#input_text').keyup((e) =>
 	{
-		$('#messages').append($('<div class="message">').text(msg));
+		if (e.which == 13 && e.shiftKey == false)
+			$('#input_send').click();
 	});
+
+	socket.on('chat message', (color, msg, timestamp) =>
+	{
+		$('#messages').append($('<br>'));
+		$('#messages').append($('<div class="message" style="background: ' + color + ';">').text(msg));
+		$('#messages').append($('<div class="message_time">').text(timestamp));		
+	});
+
 });
