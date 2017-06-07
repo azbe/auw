@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>AUW</title>
+	<link rel = 'stylesheet' type = 'text/css' href = './chat.css'>
+</head>
+
+<body>
+	<div id = 'chat'>
+		<div clas = 'message'>
+			<span class = 'message_name'>Nume1</span>
+			<span class = 'message_text'>Hello, world!</span>		
+		</div>
+	</div>
+
+	<div id = 'input'>
+		<textarea maxlength = '8192' id = 'input_text'>
+		</textarea>
+		<button id = 'input_send'>Send</button>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+ 	<script src="/socket.io/socket.io.js"></script>
+  	<script src="/chat.js"></script>
+</body>
+</html>
