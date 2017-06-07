@@ -1,0 +1,23 @@
+{
+  "name": "auw",
+  "version": "1.0.0",
+  "description": "auw",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azbe/auw.git"
+  },
+  "author": "azbe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/azbe/auw/issues"
+  },
+  "homepage": "https://github.com/azbe/auw#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.2"
+  }
+}
