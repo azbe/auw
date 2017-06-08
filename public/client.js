@@ -53,6 +53,7 @@ $(() =>
 			messageSound.play();
 		$('#messages').append(div);
 		$('#messages').append(time);
+		$(window).scrollTop(time.offset().top);
 	});
 
 	socket.on('ketchup', (messages) =>
