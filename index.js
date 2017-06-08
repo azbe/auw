@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var fs = require('fs');
 
 app.use(express.static('public'));
 
@@ -13,6 +14,9 @@ app.get('/', (req, res) =>
 var ips = [];
 var ids = [];
 var nrIds = [];
+
+var messages = [];
+var currentLog = 0;
 io.on('connection', (socket) =>
 {
 	var ip = socket.conn.remoteAddress + '';
@@ -31,6 +35,7 @@ io.on('connection', (socket) =>
 	}
 	nrIds[ips.indexOf(ip)]++;
 	socket.emit('you connect', ids[ips.indexOf(ip)]);
+	socket.emit('ketchup', messages);
 
 	socket.on('disconnect', () =>
 	{
@@ -50,8 +55,43 @@ io.on('connection', (socket) =>
 			return;
 		var ip = socket.conn.remoteAddress + '';
 		io.emit('chat message', ids[ips.indexOf(ip)], msg, timestamp);
+		var obj = [ids[ips.indexOf(ip)], msg, timestamp];		
+		messages.push(obj);
+		fs.appendFile(__dirname + '/logs/log' + currentLog + '.txt', JSON.stringify(obj) + ',\n', (err) =>
+		{
+			if (err) console.log(err);
+		});
+		if (messages.length >= 10000)
+			http.close();
 	});
 
 });
 
-http.listen(2242, () => {});
+http.on('close', () =>
+{
+	fs.appendFile(__dirname + '/logs/log' + currentLog + '.txt', '[]\n]', (err) =>
+	{
+		if (err) console.log(err);
+	});
+	fs.writeFile(__dirname + '/logs/currentLog.txt', (currentLog+1), (err) =>
+	{
+		if (err) console.log(err);
+	});
+});
+
+process.on('SIGINT', () => { http.close(); });
+
+http.listen(2242, () => 
+{
+	fs.readFile(__dirname + '/logs/currentLog.txt', 'utf8', (err, data) =>
+	{
+		if (err) console.log(err);
+
+		currentLog = parseInt(data);
+		fs.writeFile(__dirname + '/logs/log' + currentLog + '.txt', '[\n', {flag: 'w+'}, (err) =>
+		{
+			if (err) console.log(err);
+		});
+	});
+}
+);

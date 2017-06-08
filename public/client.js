@@ -1,7 +1,7 @@
 var socket = io();
 
 const messageSound = new Audio('message.wav');
-const connectSound = new Audio('connect.wav');
+const connectSound = new Audio('message.wav');
 const disconnectSound = new Audio('disconnect.wav');
 var actualID = '';
 
@@ -49,10 +49,29 @@ $(() =>
 			div.addClass('own');
 			time.addClass('own');
 		}
-		else			
+		else if (!document.hasFocus())			
 			messageSound.play();
 		$('#messages').append(div);
 		$('#messages').append(time);
+	});
+
+	socket.on('ketchup', (messages) =>
+	{
+		for (let i = 0; i < messages.length; i++)
+		{
+			$('#messages').append($('<br>'));
+			var div = $('<div class="message" style="background: ' + stringToColor(messages[i][0]) + ';">').text(messages[i][1]);
+			var time = $('<div class="message_time">').text(messages[i][2]);	
+			if (messages[i][0] == actualID)
+			{
+				div.addClass('own');
+				time.addClass('own');
+			}
+			else if (!document.hasFocus())			
+				messageSound.play();
+			$('#messages').append(div);
+			$('#messages').append(time);
+		}
 	});
 
 });
