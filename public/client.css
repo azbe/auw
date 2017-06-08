@@ -6,6 +6,7 @@
 .message
 {
 	display: inline-block;
+	max-width: 600px;
 	padding: 10px;
 	margin: 8px;
 	min-width: 8px;
@@ -20,7 +21,7 @@
 	display: inline-block;
 	color: rgb(150,150,150);
 	margin-left: 8px;
-	font-size: 8pt;
+	font-size: 6pt;
 }
 
 .message_time:last-child
