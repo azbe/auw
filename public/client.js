@@ -1,16 +1,16 @@
 var socket = io();
 
+const messageSound = new Audio('message.wav');
+const connectSound = new Audio('connect.wav');
+const disconnectSound = new Audio('disconnect.wav');
+var actualID = '';
+
 $(() =>
 {
 	$('#input_send').click(() =>
 	{
-		var timestamp = (new Date()).toUTCString();
-		var msg = $('#input_text').val();
-		socket.emit('chat message', msg, timestamp);
+		socket.emit('chat message', $('#input_text').val(), (new Date()).toUTCString());
 		$('#input_text').val('');
-		$('#messages').append($('<br>'));
-		$('#messages').append($('<div class="message own" style="background: ' + stringToColor(socket.id) + ';">').text(msg));				
-		$('#messages').append($('<div class="message_time own">').text(timestamp));	
 		return false;
 	});
 
@@ -20,14 +20,39 @@ $(() =>
 			$('#input_send').click();
 	});
 
+	socket.on('you connect', (id) =>
+	{
+		actualID = id;
+	});
+
+	socket.on('user connect', (id) =>
+	{
+		$('#messages').append($('<br>'));
+		$('#messages').append($('<div class="message connection" style="color: ' + stringToColor(id) + ';">').text(id + ' has just connected.'));
+		connectSound.play();
+	});
+
+	socket.on('user disconnect', (id) =>
+	{
+		$('#messages').append($('<br>'));
+		$('#messages').append($('<div class="message connection" style="color: ' + stringToColor(id) + ';">').text(id + ' has disconnected.'));
+		disconnectSound.play();
+	});
+
 	socket.on('chat message', (id, msg, timestamp) =>
 	{
-		//if (socket.id != id)
+		$('#messages').append($('<br>'));
+		var div = $('<div class="message" style="background: ' + stringToColor(id) + ';">').text(msg);
+		var time = $('<div class="message_time">').text(timestamp);	
+		if (id == actualID)
 		{
-			$('#messages').append($('<br>'));
-			$('#messages').append($('<div class="message" style="background: ' + stringToColor(id) + ';">').text(msg));
-			$('#messages').append($('<div class="message_time">').text(timestamp));		
-		}	
+			div.addClass('own');
+			time.addClass('own');
+		}
+		else			
+			messageSound.play();
+		$('#messages').append(div);
+		$('#messages').append(time);
 	});
 
 });

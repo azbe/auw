@@ -24,6 +24,13 @@
 	font-size: 6pt;
 }
 
+.connection
+{
+	background: white;
+	border: none;
+	margin-left: 0px;
+}
+
 .message_time:last-child
 {
 	margin-bottom: 100px;
